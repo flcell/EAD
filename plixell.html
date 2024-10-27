@@ -1,194 +1,126 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestão de Cidades - Custódia/2025</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f4f4f4;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      text-align: center;
-      padding: 20px;
-    }
-    .header {
-      font-size: 24px;
-      margin-top: 20px;
-    }
-    .sector {
-      display: inline-block;
-      width: 150px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    .icon {
-      width: 100px; /* Ajuste o tamanho da imagem */
-      height: 100px; /* Ajuste o tamanho da imagem */
-      margin-bottom: 5px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-content {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
-    }
-    .close {
-      cursor: pointer;
-      color: red;
-      font-weight: bold;
-    }
-    .stars {
-      display: flex;
-      justify-content: center;
-      margin: 10px 0;
-    }
-    .star {
-      cursor: pointer;
-      font-size: 20px;
-      color: #ddd;
-    }
-    .star.selected {
-      color: gold;
-    }
-    #thankYouMessage {
-      display: none;
-      color: green;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      background-color: #f1f1f1;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Cidades - Custódia/2025</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: auto; text-align: center; padding: 20px; }
+    .header { font-size: 24px; margin-top: 20px; }
+    .sector { display: inline-block; width: 150px; margin: 10px; cursor: pointer; }
+    .icon { width: 50px; height: 50px; margin-bottom: 5px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; text-align: center; width: 90%; max-width: 400px; }
+    .close { cursor: pointer; color: red; font-weight: bold; }
+    .stars { display: flex; justify-content: center; margin: 10px 0; }
+    .star { cursor: pointer; font-size: 20px; color: #ddd; }
+    .star.selected { color: gold; }
+    #thankYouMessage { display: none; color: green; }
+    footer { text-align: center; padding: 10px; font-size: 12px; background-color: #f1f1f1; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 </head>
-<body>
+<body> 
 
 <div class="container">
-  <div class="header">Gestão de Cidades - Custódia/2025</div>
+  <div class="header">Gestão de Cidades - Custódia/2025</div> 
 
-  <!-- Setores -->
-  <div id="sectors">
-    <div class="sector" onclick="openModal('Secretaria de Desenvolvimento Urbano', 'https://wa.me/5587981448334')">
-      <img src="images/icon1.png" class="icon" alt="Desenvolvimento Urbano">
-      <div>Desenvolvimento Urbano</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Saúde', 'https://wa.me/5587981448334')">
-      <img src="images/icon2.png" class="icon" alt="Saúde">
-      <div>Saúde</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Educação', 'https://wa.me/5587981448334')">
-      <img src="images/icon3.png" class="icon" alt="Educação">
-      <div>Educação</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Assistência Social', 'https://wa.me/5587981448334')">
-      <img src="images/icon4.png" class="icon" alt="Assistência Social">
-      <div>Assistência Social</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Cultura', 'https://wa.me/5587981448334')">
-      <img src="images/icon5.png" class="icon" alt="Cultura">
-      <div>Cultura</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Segurança', 'https://wa.me/5587981448334')">
-      <img src="images/icon6.png" class="icon" alt="Segurança">
-      <div>Segurança</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Meio Ambiente', 'https://wa.me/5587981448334')">
-      <img src="images/icon7.png" class="icon" alt="Meio Ambiente">
-      <div>Meio Ambiente</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Obras', 'https://wa.me/5587981448334')">
-      <img src="images/icon8.png" class="icon" alt="Obras">
-      <div>Obras</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Transportes', 'https://wa.me/5587981448334')">
-      <img src="images/icon9.png" class="icon" alt="Transportes">
-      <div>Transportes</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Esportes', 'https://wa.me/5587981448334')">
-      <img src="images/icon10.png" class="icon" alt="Esportes">
-      <div>Esportes</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Turismo', 'https://wa.me/5587981448334')">
-      <img src="images/icon11.png" class="icon" alt="Turismo">
-      <div>Turismo</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Finanças', 'https://wa.me/5587981448334')">
-      <img src="images/icon12.png" class="icon" alt="Finanças">
-      <div>Finanças</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Habitação', 'https://wa.me/5587981448334')">
-      <img src="images/icon13.png" class="icon" alt="Habitação">
-      <div>Habitação</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Agricultura', 'https://wa.me/5587981448334')">
-      <img src="images/icon14.png" class="icon" alt="Agricultura">
-      <div>Agricultura</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Indústria e Comércio', 'https://wa.me/5587981448334')">
-      <img src="images/icon15.png" class="icon" alt="Indústria e Comércio">
-      <div>Indústria e Comércio</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Relações Institucionais', 'https://wa.me/5587981448334')">
-      <img src="images/icon16.png" class="icon" alt="Relações Institucionais">
-      <div>Relações Institucionais</div>
-    </div>
-    <div class="sector" onclick="openModal('Secretaria de Planejamento', 'https://wa.me/5587981448334')">
-      <img src="images/icon17.png" class="icon" alt="Planejamento">
-      <div>Planejamento</div>
-    </div>
-  </div>
-</div>
+  <!-- Setores -->
+  <div id="sectors">
+    <div class="sector" onclick="openModal('Secretaria de Desenvolvimento Urbano', 'https://wa.me/5587981448334')"> 
+      <img src="setor1.png" class="icon"><div>Desenvolvimento Urbano</div>
+    </div>
+    <div class="sector" onclick="openModal('Secretaria de Saúde', 'https://wa.me/5587999786261')"> 
+      <img src="setor2.png" class="icon"><div>Saúde</div>
+    </div>
+    <div class="sector" onclick="openModal('Secretaria de Educação', 'https://wa.me/5587998096515')"> 
+      <img src="setor3.png" class="icon"><div>Educação</div>
+    </div>
+    <!-- Adicione os demais setores aqui com placeholders -->
+  </div>
+</div> 
 
 <!-- Modal de Mensagem -->
 <div id="messageModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">X</span>
-    <h3>A Prefeitura de Custódia Agradece a Mensagem.</h3>
-    <p>Em quem podemos ajudar? SUA INFORMAÇÃO FICARÁ EM SIGILO!</p>
-    <textarea id="userMessage" placeholder="Envie Sua Mensagem. Sua mensagem permanecerá em sigilo." rows="4" style="width:100%"></textarea>
-    <input type="file" id="fileUpload" style="margin: 10px 0;" accept="image/*" onchange="requestPermissions()">
-    <button onclick="sendMessage()">Enviar</button>
-    <p id="thankYouMessage">A Prefeitura de Custódia agradece a sua participação.</p>
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">X</span>
+    <h3>A Prefeitura de Custódia Agradece a Mensagem.</h3>
+    <p>Em quem podemos ajudar? SUA INFORMAÇÃO FICARÁ EM SIGILO!</p>
+    <textarea id="userMessage" placeholder="Envie Sua Mensagem. Sua mensagem permanecerá em sigilo." rows="4" style="width:100%"></textarea>
+    <input type="file" id="fileUpload" style="margin: 10px 0;" accept="image/*" onchange="requestPermissions()">
+    <button onclick="sendMessage()">Enviar</button>
+    <p id="thankYouMessage">A Prefeitura de Custódia agradece a sua participação.</p> 
 
-    <!-- Avaliação -->
-    <p>Avalie o Secretário ou Diretor do setor:</p>
-    <div class="stars" id="stars">
-      <span class="star" onclick="rate(1)">★</span>
-      <span class="star" onclick="rate(2)">★</span>
-      <span class="star" onclick="rate(3)">★</span>
-      <span class="star" onclick="rate(4)">★</span>
-      <span class="star" onclick="rate(5)">★</span>
-    </div>
-  </div>
-</div>
+    <!-- Avaliação -->
+    <p>Avalie o Secretário ou Diretor do setor:</p>
+    <div class="stars" id="stars">
+      <span class="star" onclick="rate(1)">★</span>
+      <span class="star" onclick="rate(2)">★</span>
+      <span class="star" onclick="rate(3)">★</span>
+      <span class="star" onclick="rate(4)">★</span>
+      <span class="star" onclick="rate(5)">★</span>
+    </div>
+  </div>
+</div> 
 
 <footer>
-  @Copyright 2024 - Plixell - IA Designer
-</footer>
+  @Copyright 2024 - Plixell - IA Designer
+</footer> 
 
 <script>
-  let selectedSector = '';
-  let selectedStars = 0;
+  const secretKey = 'sua-chave-secreta'; // Mantenha isso seguro e fora do código público
+  let selectedSector = '';
+  let selectedStars = 0; 
 
-  // Abre o modal com o título do setor selecionado e link do WhatsApp
-  function openModal(se
+  // Abre o modal com o título do setor selecionado
+  function openModal(sectorName, whatsappLink) {
+    selectedSector = sectorName;
+    document.getElementById('userMessage').value = '';
+    document.getElementById('thankYouMessage').style.display = 'none';
+    resetStars();
+    document.getElementById('messageModal').style.display = 'flex';
+    window.selectedWhatsAppLink = whatsappLink; // Salva o link do WhatsApp
+  } 
+
+  // Fecha o modal
+  function closeModal() {
+    document.getElementById('messageModal').style.display = 'none';
+  } 
+
+  // Envia a mensagem criptografada
+  function sendMessage() {
+    const message = document.getElementById('userMessage').value;
+    const starRating = selectedStars;
+
+    // Criptografa a mensagem
+    const encryptedMessage = CryptoJS.AES.encrypt(message, secretKey).toString();
+    const fullMessage = `Setor: ${selectedSector}\nMensagem: ${encryptedMessage}\nAvaliação: ${starRating} estrelas`; 
+
+    // Abre o WhatsApp com a mensagem criptografada
+    window.open(`${window.selectedWhatsAppLink}?text=${encodeURIComponent(fullMessage)}`, '_blank'); 
+
+    document.getElementById('thankYouMessage').style.display = 'block';
+  } 
+
+  // Sistema de Avaliação
+  function rate(stars) {
+    resetStars();
+    selectedStars = stars;
+    for (let i = 0; i < stars; i++) {
+      document.getElementById('stars').children[i].classList.add('selected');
+    }
+  } 
+
+  // Reseta as estrelas
+  function resetStars() {
+    const starElements = document.getElementById('stars').children;
+    for (let star of starElements) {
+      star.classList.remove('selected');
+    }
+    selectedStars = 0;
+  }
+</script> 
+
+</body>
+</html>
