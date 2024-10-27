@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestão de Cidades - Custódia/2025</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: auto; text-align: center; padding: 20px; }
+    .header { font-size: 24px; margin-top: 20px; }
+    .sector { display: inline-block; width: 150px; margin: 10px; cursor: pointer; }
+    .icon { width: 50px; height: 50px; margin-bottom: 5px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 8px; text-align: center; width: 90%; max-width: 400px; }
+    .close { cursor: pointer; color: red; font-weight: bold; }
+    .stars { display: flex; justify-content: center; margin: 10px 0; }
+    .star { cursor: pointer; font-size: 20px; color: #ddd; }
+    .star.selected { color: gold; }
+    #thankYouMessage { display: none; color: green; }
+    footer { text-align: center; padding: 10px; font-size: 12px; background-color: #f1f1f1; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">Gestão de Cidades - Custódia/2025</div>
+
+  <!-- Setores -->
+  <div id="sectors">
+    <div class="sector" onclick="openModal('Secretaria de Desenvolvimento Urbano', 'https://wa.me/5587981448334')"> 
+      <img src="setor1.png" class="icon"><div>Desenvolvimento Urbano</div>
+    </div>
+    <div class="sector" onclick="openModal('Secretaria de Saúde', 'https://wa.me/5587999786261')"> 
+      <img src="setor2.png" class="icon"><div>Saúde</div>
+    </div>
+    <div class="sector" onclick="openModal('Secretaria de Educação', 'https://wa.me/5587998096515')"> 
+      <img src="setor3.png" class="icon"><div>Educação</div>
+    </div>
+    <!-- Adicione os demais setores aqui com placeholders -->
+  </div>
+</div>
+
+<!-- Modal de Mensagem -->
+<div id="messageModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">X</span>
+    <h3>A Prefeitura de Custódia Agradece a Mensagem.</h3>
+    <p>Em quem podemos ajudar? SUA INFORMAÇÃO FICARÁ EM SIGILO!</p>
+    <textarea id="userMessage" placeholder="Envie Sua Mensagem. Sua mensagem permanecerá em sigilo." rows="4" style="width:100%"></textarea>
+    <input type="file" id="fileUpload" style="margin: 10px 0;" accept="image/*" onchange="requestPermissions()">
+    <button onclick="sendMessage()">Enviar</button>
+    <p id="thankYouMessage">A Prefeitura de Custódia agradece a sua participação.</p>
+
+    <!-- Avaliação -->
+    <p>Avalie o Secretário ou Diretor do setor:</p>
+    <div class="stars" id="stars">
+      <span class="star" onclick="rate(1)">★</span>
+      <span class="star" onclick="rate(2)">★</span>
+      <span class="star" onclick="rate(3)">★</span>
+      <span class="star" onclick="rate(4)">★</span>
+      <span class="star" onclick="rate(5)">★</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  @Copyright 2024 - Plixell - IA Designer
+</footer>
+
+<script>
+  const apiKey = 'https://websim.ai/p/ko96_8ej_qxif1oi855u';
+  let selectedSector = '';
+  let selectedStars = 0;
+
+  // Abre o modal com o título do setor selecionado
+  function openModal(sectorName, whatsappLink) {
+    selectedSector = sectorName;
+    document.getElementById('userMessage').value = '';
+    document.getElementById('thankYouMessage').style.display = 'none';
+    resetStars();
+    document.getElementById('messageModal').style.display = 'flex';
+    window.selectedWhatsAppLink = whatsappLink; // Salva o link do WhatsApp
+  }
+
+  // Fecha o modal
+  function closeModal() {
+    document.getElementById('messageModal').style.display = 'none';
+  }
+
+  //https://<YOUR-WHATSAPP-API-ENDPOINT>?api_key=1729954572079-f340278f299cb146564842ec28702ef1 {
+    alert('Permissão de câmera e armazenamento concedida para envio de anexos.');
+  }
+
+  // https://api.whatsapp.com/send?phone=<5587999786261>&text=<mensagem> {
+    const message = document.getElementById('userMessage').value;
+    const starRating = selectedStars;
+    const fullMessage = `Setor: ${selectedSector}\nMensagem: ${message}\nAvaliação: ${starRating} estrelas`;
+
+    //https://wa.me/5587999786261?text=Olá!%20Esta%20é%20uma%20mensagem%20de%20teste%20enviada%20pela%20API%20do%20WhatsApp. = `${window.selectedWhatsAppLink}?text=${encodeURIComponent(fullMessage)}&apikey=${apiKey}`;
+    window.open(whatsappLink, '_blank');
+
+    document.getElementById('thankYouMessage').style.display = 'block';
+  }
+
+  // Sistema de Avaliação
+  function rate(stars) {
+    resetStars();
+    selectedStars = stars;
+    for (let i = 0; i < stars; i++) {
+      document.getElementById('stars').children[i].classList.add('selected');
+    }
+  }
+
+  // Reseta as estrelas
+  function resetStars() {
+    const starElements = document.getElementById('stars').children;
+    for (let star of starElements) {
+      star.classList.remove('selected');
+    }
+    selectedStars = 0;
+  }
+</script>
+
+</body>
+</html>
