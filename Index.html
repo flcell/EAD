@@ -13,86 +13,114 @@
         }
 
         body {
-            background-color: #282c34;
-            color: #ffffff;
+            background-color: #2e2e2e; /* Cor grafite */
+            color: #ffffff; /* Texto branco */
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
+            padding: 20px;
         }
 
         header {
             text-align: center;
-            margin: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
             font-size: 2.5rem;
-            color: #61dafb;
+            color: #00e6e6; /* Cor azul clara */
+            margin-bottom: 10px;
         }
 
         p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            color: #cccccc; /* Texto cinza claro */
         }
 
         .input-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 20px;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 30px;
         }
 
         input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: none;
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #00e6e6; /* Borda azul clara */
             border-radius: 5px;
             font-size: 1rem;
+            transition: border-color 0.3s;
+            margin-bottom: 10px;
+            background-color: #1e1e1e; /* Fundo do campo de entrada */
+            color: #ffffff; /* Texto branco */
+        }
+
+        input[type="text"]:focus {
+            border-color: #00b3b3; /* Borda ao focar */
+            outline: none;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #61dafb;
+            padding: 10px;
+            background-color: #00e6e6; /* Botão azul claro */
             border: none;
             border-radius: 5px;
-            color: #282c34;
+            color: #282c34; /* Texto do botão */
             font-size: 1rem;
             cursor: pointer;
-            margin: 5px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #21a1f1;
+            background-color: #00b3b3; /* Cor ao passar o mouse */
         }
 
         .output-container {
-            margin-top: 20px;
-            width: 80%;
+            width: 100%;
+            max-width: 500px;
         }
 
         img, video {
-            max-width: 100%;
-            border: 1px solid #61dafb;
+            width: 100%;
             border-radius: 5px;
             margin: 10px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             position: relative;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            text-align: center;
-            background-color: #21252b;
-            width: 100%;
         }
 
         .watermark {
             position: absolute;
             bottom: 10px;
             right: 10px;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #00e6e6; /* Cor do rodapé */
+            color: #282c34; /* Texto do rodapé */
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        .download-btn {
+            display: block;
+            margin-top: 10px;
+            color: #00e6e6; /* Cor do link de download */
+            text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -177,9 +205,7 @@
                 downloadButton.href = img.src;
                 downloadButton.download = "imagem.png";
                 downloadButton.innerText = "Download";
-                downloadButton.style.display = 'block';
-                downloadButton.style.marginTop = '10px';
-                downloadButton.style.color = '#61dafb';
+                downloadButton.className = "download-btn";
 
                 document.getElementById('imageContainer').appendChild(container);
                 document.getElementById('imageContainer').appendChild(downloadButton);
@@ -224,9 +250,7 @@
                 downloadButton.href = video.src;
                 downloadButton.download = "video.mp4";
                 downloadButton.innerText = "Download";
-                downloadButton.style.display = 'block';
-                downloadButton.style.marginTop = '10px';
-                downloadButton.style.color = '#61dafb';
+                downloadButton.className = "download-btn";
 
                 document.getElementById('videoContainer').appendChild(container);
                 document.getElementById('videoContainer').appendChild(downloadButton);
