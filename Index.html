@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plixell - Geração de Imagens e Vídeos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #282c34;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #61dafb;
+        }
+
+        p {
+            font-size: 1.2rem;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #61dafb;
+            border: none;
+            border-radius: 5px;
+            color: #282c34;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #21a1f1;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            width: 80%;
+        }
+
+        img, video {
+            max-width: 100%;
+            border: 1px solid #61dafb;
+            border-radius: 5px;
+            margin: 10px 0;
+            position: relative;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #21252b;
+            width: 100%;
+        }
+
+        .watermark {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Plixell</h1>
+        <p>Gere imagens e vídeos hiper-realistas com prompts!</p>
+    </header>
+
+    <main>
+        <div class="input-container">
+            <input type="text" id="prompt" placeholder="Digite seu prompt aqui..." required>
+            <button id="generateImage">Gerar Imagem</button>
+            <button id="generateVideo">Gerar Vídeo</button>
+        </div>
+
+        <div id="output" class="output-container">
+            <h2>Resultados</h2>
+            <div id="imageContainer"></div>
+            <div id="videoContainer"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Plixell - Plínio Fabrício.</p>
+    </footer>
+
+    <script>
+        let imageCount = 0;
+        let videoCount = 0;
+
+        document.getElementById('generateImage').addEventListener('click', async function() {
+            const prompt = document.getElementById('prompt').value;
+            if (imageCount < 5) {
+                await generateImage(prompt);
+                imageCount++;
+            } else {
+                alert("Limite diário de 5 imagens atingido.");
+            }
+        });
+
+        document.getElementById('generateVideo').addEventListener('click', async function() {
+            const prompt = document.getElementById('prompt').value;
+            if (videoCount < 3) {
+                await generateVideo(prompt);
+                videoCount++;
+            } else {
+                alert("Limite diário de 3 vídeos atingido.");
+            }
+        });
+
+        async function generateImage(prompt) {
+            try {
+                const response = await fetch('https://websim.ai/p/7zi22idrqzqzgrzavy6w/generate_image', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na geração da imagem');
+                }
+
+                const data = await response.json();
+                const img = document.createElement('img');
+                img.src = data.url; // Supondo que a API retorne uma URL da imagem
+                img.alt = prompt;
+
+                // Adicionar marca d'água
+                const watermark = document.createElement('div');
+                watermark.innerText = "Plixell";
+                watermark.className = "watermark";
+
+                const container = document.createElement('div');
+                container.style.position = 'relative';
+                container.appendChild(img);
+                container.appendChild(watermark);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = img.src;
+                downloadButton.download = "imagem.png";
+                downloadButton.innerText = "Download";
+                downloadButton.style.display = 'block';
+                downloadButton.style.marginTop = '10px';
+                downloadButton.style.color = '#61dafb';
+
+                document.getElementById('imageContainer').appendChild(container);
+                document.getElementById('imageContainer').appendChild(downloadButton);
+            } catch (error) {
+                console.error(error);
+                alert('Falha ao gerar imagem. Tente novamente.');
+            }
+        }
+
+        async function generateVideo(prompt) {
+            try {
+                const response = await fetch('https://websim.ai/p/7zi22idrqzqzgrzavy6w/generate_video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erro na geração do vídeo');
+                }
+
+                const data = await response.json();
+                const videoUrl = data.videoUrl; // Supondo que a API retorne uma URL do vídeo
+
+                const video = document.createElement('video');
+                video.src = videoUrl;
+                video.controls = true;
+
+                // Adicionar marca d'água
+                const watermark = document.createElement('div');
+                watermark.innerText = "Plixell";
+                watermark.className = "watermark";
+
+                const container = document.createElement('div');
+                container.style.position = 'relative';
+                container.appendChild(video);
+                container.appendChild(watermark);
+
+                const downloadButton = document.createElement('a');
+                downloadButton.href = video.src;
+                downloadButton.download = "video.mp4";
+                downloadButton.innerText = "Download";
+                downloadButton.style.display = 'block';
+                downloadButton.style.marginTop = '10px';
+                downloadButton.style.color = '#61dafb';
+
+                document.getElementById('videoContainer').appendChild(container);
+                document.getElementById('videoContainer').appendChild(downloadButton);
+            } catch (error) {
+                console.error(error);
+                alert('Falha ao gerar vídeo. Tente novamente.');
+            }
+        }
+    </script>
+</body>
+</html>
