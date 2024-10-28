@@ -20,10 +20,10 @@
     footer { text-align: center; padding: 10px; font-size: 12px; background-color: #f1f1f1; }
   </style>
 </head>
-<body>
+<body> 
 
 <div class="container">
-  <div class="header">Gestão de Cidades - Custódia/2025</div>
+  <div class="header">Gestão de Cidades - Custódia/2025</div> 
 
   <!-- Setores -->
   <div id="sectors">
@@ -38,7 +38,7 @@
     </div>
     <!-- Adicione os demais setores aqui com placeholders -->
   </div>
-</div>
+</div> 
 
 <!-- Modal de Mensagem -->
 <div id="messageModal" class="modal">
@@ -47,9 +47,9 @@
     <h3>A Prefeitura de Custódia Agradece a Mensagem.</h3>
     <p>Em quem podemos ajudar? SUA INFORMAÇÃO FICARÁ EM SIGILO!</p>
     <textarea id="userMessage" placeholder="Envie Sua Mensagem. Sua mensagem permanecerá em sigilo." rows="4" style="width:100%"></textarea>
-    <input type="file" id="fileUpload" style="margin: 10px 0;" accept="image/*" onchange="requestPermissions()">
+    <input type="file" id="fileUpload" style="margin: 10px 0;" accept="image/*">
     <button onclick="sendMessage()">Enviar</button>
-    <p id="thankYouMessage">A Prefeitura de Custódia agradece a sua participação.</p>
+    <p id="thankYouMessage">A Prefeitura de Custódia agradece a sua participação.</p> 
 
     <!-- Avaliação -->
     <p>Avalie o Secretário ou Diretor do setor:</p>
@@ -61,16 +61,15 @@
       <span class="star" onclick="rate(5)">★</span>
     </div>
   </div>
-</div>
+</div> 
 
 <footer>
   @Copyright 2024 - Plixell - IA Designer
-</footer>
+</footer> 
 
 <script>
-  const apiKey = 'https://websim.ai/p/ko96_8ej_qxif1oi855u';
   let selectedSector = '';
-  let selectedStars = 0;
+  let selectedStars = 0; 
 
   // Abre o modal com o título do setor selecionado
   function openModal(sectorName, whatsappLink) {
@@ -80,27 +79,24 @@
     resetStars();
     document.getElementById('messageModal').style.display = 'flex';
     window.selectedWhatsAppLink = whatsappLink; // Salva o link do WhatsApp
-  }
+  } 
 
   // Fecha o modal
   function closeModal() {
     document.getElementById('messageModal').style.display = 'none';
-  }
+  } 
 
-  //https://<YOUR-WHATSAPP-API-ENDPOINT>?api_key=1729954572079-f340278f299cb146564842ec28702ef1 {
-    alert('Permissão de câmera e armazenamento concedida para envio de anexos.');
-  }
-
-  // https://api.whatsapp.com/send?phone=<5587999786261>&text=<mensagem> {
+  // Enviar mensagem via WhatsApp com avaliação
+  function sendMessage() {
     const message = document.getElementById('userMessage').value;
     const starRating = selectedStars;
-    const fullMessage = `Setor: ${selectedSector}\nMensagem: ${message}\nAvaliação: ${starRating} estrelas`;
+    const fullMessage = `Setor: ${selectedSector}\nMensagem: ${message}\nAvaliação: ${starRating} estrelas`; 
 
-    //https://wa.me/5587999786261?text=Olá!%20Esta%20é%20uma%20mensagem%20de%20teste%20enviada%20pela%20API%20do%20WhatsApp. = `${window.selectedWhatsAppLink}?text=${encodeURIComponent(fullMessage)}&apikey=${apiKey}`;
-    window.open(whatsappLink, '_blank');
+    const whatsappLink = `${window.selectedWhatsAppLink}?text=${encodeURIComponent(fullMessage)}`;
+    window.open(whatsappLink, '_blank'); 
 
     document.getElementById('thankYouMessage').style.display = 'block';
-  }
+  } 
 
   // Sistema de Avaliação
   function rate(stars) {
@@ -109,7 +105,7 @@
     for (let i = 0; i < stars; i++) {
       document.getElementById('stars').children[i].classList.add('selected');
     }
-  }
+  } 
 
   // Reseta as estrelas
   function resetStars() {
@@ -119,7 +115,7 @@
     }
     selectedStars = 0;
   }
-</script>
+</script> 
 
 </body>
 </html>
